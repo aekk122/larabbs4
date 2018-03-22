@@ -32,7 +32,7 @@ class ImageUploadHandler {
 		$file->move($upload_path, $filename);
 
 		// 如果限制了图片宽度，则进行裁剪
-		if ($max_width) {
+		if ($max_width && $extension != "gif") {
 			// 此类中封装的函数，用于裁剪图片
 			$this->reduceSize($upload_path . '/' . $filename, $max_width);
 		}
