@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Topic extends Model
 {
-    protected $fillable = ['title', 'body',  'excerpt'];
+    protected $fillable = ['title', 'body', 'category_id', 'excerpt', 'slug'];
 
     public function belongsToCategory() {
     	return $this->belongsTo(Category::class, 'category_id');
