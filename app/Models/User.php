@@ -35,4 +35,7 @@ class User extends Authenticatable
         return $this->id === $model->user_id;
     }
 
+    public function hasManyReplies() {
+        return $this->hasMany(Reply::class, 'user_id');
+    }
 }
