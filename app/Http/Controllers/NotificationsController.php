@@ -16,7 +16,7 @@ class NotificationsController extends Controller
     	// 获取登录用户的通知
     	$notifications = Auth::user()->notifications()->paginate(20);
     	// 标记为已读
-    	Auth::user()->markAsRead();
+    	Auth::user()->markAsRead();	
     	return view('notifications.index', compact('notifications'));
     }
 }
