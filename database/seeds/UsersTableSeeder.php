@@ -42,7 +42,11 @@ class UsersTableSeeder extends Seeder
         $user->email = "460905539@qq.com";
         $user->password = bcrypt('aekk122');
         $user->avatar = 'https://fsdhubcdn.phphub.org/uploads/images/201710/14/1/ZqM7iaP4CR.png?imageView2/1/w/200/h/200';
+        $user->assignRole('Founder');
         $user->save();
 
+        // 给 2 号用户分配管理员权限
+        $user = User::find(2);
+        $user->assignRole('Maintainer');
     }
 }
