@@ -18,4 +18,12 @@ class ReplyObserver
     {
         //
     }
+
+    public function saving(Reply $reply) {
+    	$reply->content = clean($reply->content, 'user_topic_body');
+    }
+
+    public function created(Reply $reply) {
+    	$reply->belongsToTopic->increment('reply_count');
+    }
 }

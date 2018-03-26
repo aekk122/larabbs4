@@ -17,8 +17,11 @@
 
                     {{-- 回复删除按钮 --}}
                     <span class="meta pull-right">
-                        <a title="删除回复">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        <form action="{{ route('replies.destroy', $reply->id) }}" method="POST">
+                            {{ csrf_field() }}                            
+                            {{ method_field('DELETE') }}
+
+                        </form>
                         </a>
                     </span>
                 </div>
