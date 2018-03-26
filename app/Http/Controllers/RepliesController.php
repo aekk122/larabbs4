@@ -27,6 +27,6 @@ class RepliesController extends Controller
 	public function destroy(Reply $reply) {
 		$this->authorize('destroy', $reply);
 		$reply->delete();
-		return rediect()->to($reply->belongsToTopic->link())->with('success', '删除成功！');
+		return redirect()->to($reply->belongsToTopic->link())->with('success', '删除成功！');
 	}
 }

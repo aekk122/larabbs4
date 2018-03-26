@@ -26,9 +26,6 @@ class TopicObserver
 
         // XSS 过滤
         $topic->body = clean($topic->body, 'user_topic_body');
-
-        
-
     }
 
     public function saved(Topic $topic) {
@@ -37,5 +34,10 @@ class TopicObserver
             // 推送队列任务
             dispatch(new TranslateSlug($topic));
         } 
+    }
+
+    public function deleted(Topic $topic) {
+        // 直接用 DB 类删除，防止触发模型监听器
+        \DB::table('replies')->where('topic_id', $topic->id)->delete();
     }
 }
