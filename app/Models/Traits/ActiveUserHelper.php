@@ -59,7 +59,7 @@ trait ActiveUserHelper {
 		foreach ($users as $user_id => $user) {
 			// 找寻下是否可以找到用户
 			$user = $this->find($user_id);
-			if ($user) {
+			if (isset($user)) {
 				// 存在该用户
 				$active_users->push($user);
 			}
