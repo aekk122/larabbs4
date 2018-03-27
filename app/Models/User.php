@@ -61,4 +61,23 @@ class User extends Authenticatable
     public function hasManyReplies() {
         return $this->hasMany(Reply::class, 'user_id');
     }
+
+    public function setPasswordAttribute($value) {
+        // 如果值的长度等于 60，即认为是已经加过密
+        if(strlen($value) != 60) {
+            $value = bcrypt($value);
+        }
+
+        $this->attributes['password'] = $value;
+    }
+
+    public function setAvatarAttribute($value) {
+        // 如果不是 'http' 子串开头，那就是后台上传，需要补全 URL
+        if (!starts_with($value, 'http')) {
+            // 拼接完整的 URL
+            $value = config('app.url') . "/uploads/images/avatars/$value";
+        }
+
+        $this->attributes['avatar'] = $value;
+    }
 }
