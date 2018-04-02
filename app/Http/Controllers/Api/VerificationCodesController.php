@@ -10,7 +10,19 @@ class VerificationCodesController extends Controller
 {
     //
     public function store(VerificationCodeRequest $request, EasySms $easysms) {
-    	$phone = $request->phone;
+    	$captcha_data = \Cache::get($request->captcha_key);
+
+    	if (!$captcha_data) {
+    		return $this->response->error('图片验证码已经失效！', 422);
+    	}
+
+    	if (!hash_equals($captcha_data['code'], $request->captcha_code)) {
+    		// 验证码错误就清除缓存
+    		\Cache::forget($request->captcha_key);
+    		return $this->response->errorUnautorized('验证码错误');
+    	}
+
+    	$phone = $captcha_data['phone'];
 
     	if (!app()->environment('production')) {
     		$code = '1234';
@@ -25,6 +37,10 @@ class VerificationCodesController extends Controller
 	    	} catch (\GuzzleHttp\Exception\ClientException $exception) {
 	    		$response = $exception->getResponse();
 	    		$result = json_decode($response->getBody()->getContents(), true);
+
+	    		// 清除验证码缓存
+    			\Cache::forget($request->captcha_key);
+
 	    		return $this->response->errorInternal($result['msg'] ?? '短信发送异常');
 	    	}
     	}
@@ -34,6 +50,9 @@ class VerificationCodesController extends Controller
     	$expireAt = now()->addMinutes(10);
     	// 缓存验证码，10 分钟过期
     	\Cache::put($key, ['phone' => $phone, 'code' => $code], $expireAt);
+
+    	// 清除验证码缓存
+    	\Cache::forget($request->captcha_key);
 
     	return $this->response->array([
     		'key' => $key,
