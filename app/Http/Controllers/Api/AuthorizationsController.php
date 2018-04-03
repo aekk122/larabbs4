@@ -62,7 +62,7 @@ class AuthorizationsController extends Controller
 
     	$token = Auth::guard('api')->fromUser($user);
 
-        return $this->responseWithToken($token)->setStatusCode(201);
+        return $this->respondWithToken($token)->setStatusCode(201);
 
     }
 
@@ -79,10 +79,10 @@ class AuthorizationsController extends Controller
             return $this->response->errorUnautorized('用户名或者密码错误');
         }
 
-        return $this->responseWithToken($token)->setStatusCode(201);
+        return $this->respondWithToken($token)->setStatusCode(201);
     }
 
-    protected function responseWithToken($token) {
+    protected function respondWithToken($token) {
         return $this->response->array([
             'access_token' => $token,
             'token_type' => 'Bearer',
@@ -93,9 +93,8 @@ class AuthorizationsController extends Controller
     public function update()
     {
         $token = Auth::guard('api')->refresh();
-        return $this->response->array(['token' => $token]);
+        return $this->respondWithToken($token);
     }
-
     public function destroy()
     {
         Auth::guard('api')->logout();
