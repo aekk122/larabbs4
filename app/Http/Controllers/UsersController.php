@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
 use App\Handlers\ImageUploadHandler;
+use App\Transformers\UserTransformer;
 
 class UsersController extends Controller
 {
@@ -37,4 +38,7 @@ class UsersController extends Controller
 
     	return redirect()->route('users.show', $user->id)->with('success', '更新用户资料成功');
     }
+
+
+   
 }
