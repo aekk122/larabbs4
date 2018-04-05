@@ -17,7 +17,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
-    'middleware' => 'serializer:array'
+    'middleware' => ['serializer:array', 'bindings']
 ], function($api) {
     // // 短信验证码
     // $api->post('verificationCodes', 'VerificationCodesController@store')
@@ -88,6 +88,10 @@ $api->version('v1', [
             // 话题发布
             $api->post('topics', 'TopicsController@store')
             	->name('api.topics.store');
+
+            // 修改话题
+            $api->patch('topics/{topic}', 'TopicsController@update')
+    			->name('api.topics.update');
         });
     });
 });
