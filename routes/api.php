@@ -84,6 +84,10 @@ $api->version('v1', [
            	// 编辑个人资料
             $api->patch('user', 'UsersController@update')
             	->name('api.users.update');
+
+            // 话题发布
+            $api->post('topics', 'TopicsController@store')
+            	->name('api.topics.store');
         });
     });
 });
