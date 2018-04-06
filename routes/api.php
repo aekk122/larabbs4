@@ -79,6 +79,7 @@ $api->version('v1', [
 
     	$api->get('topics/{topic}', 'TopicsController@show')
     		->name('api.topics.show');
+
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function($api) {
             // 当前登录用户信息
@@ -104,6 +105,10 @@ $api->version('v1', [
     		// 删除话题
     		$api->delete('topics/{topic}', 'TopicsController@destroy')
     			->name('api.topics.destroy');
+
+    		// 发布回复
+    		$api->post('topics/{topic}/replies', 'RepliesController@store')
+    			->name('api.topics.replies.store');
         });
     });
 });
