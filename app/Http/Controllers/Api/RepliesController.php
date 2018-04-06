@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\Models\Reply;
+use App\Models\User;
 use App\Models\Topic;
 use App\Http\Requests\Api\ReplyRequest;
 use App\Transformers\ReplyTransformer;
@@ -29,5 +30,17 @@ class RepliesController extends Controller
     	$reply->delete();
 
     	return $this->response->noContent();
+    }
+
+    public function index(Topic $topic) {
+    	$replies = $topic->hasManyReplies()->paginate(20);
+
+    	return $this->response->paginator($replies, new ReplyTransformer());
+    }
+
+    public function userIndex(User $user) {
+    	$replies = $user->hasManyReplies()->paginate(20);
+
+    	return $this->response->paginator($replies, new ReplyTransformer());
     }
 }
