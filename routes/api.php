@@ -17,7 +17,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api',
-    'middleware' => ['serializer:array', 'bindings']
+    'middleware' => ['serializer:array', 'bindings', 'change-locale']
 ], function($api) {
     // // 短信验证码
     // $api->post('verificationCodes', 'VerificationCodesController@store')
